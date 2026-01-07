@@ -1,0 +1,1808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resources - EGHI | Emory Gut Health Initiative</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-green: #004225;
+            --accent-green: #2e7d32;
+            --light-green: #66bb6a;
+            --gold: #f9a825;
+            --cream: #fff8e1;
+            --gray-bg: #f8f9fa;
+            --text-dark: #333;
+            --text-gray: #666;
+            --glass-bg: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.8);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background-color: #f5f7fa;
+            overflow-x: hidden;
+        }
+
+        /* Smooth Scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+        /* Enhanced Audio Player Styles */
+        .audio-progress {
+            width: 100%;
+            height: 8px;
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 10px;
+            margin: 1rem 0 0.5rem;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .audio-progress:hover {
+            height: 10px;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1), 0 0 0 2px rgba(102, 187, 106, 0.2);
+        }
+
+        .audio-progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary-green), var(--light-green));
+            border-radius: 10px;
+            width: 0%;
+            transition: width 0.1s ease;
+            position: relative;
+            box-shadow: 0 2px 4px rgba(0, 66, 37, 0.2);
+        }
+
+        .audio-progress-fill::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 100%);
+            border-radius: 10px;
+        }
+
+        .audio-progress-fill::after {
+            content: '';
+            position: absolute;
+            right: -8px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 16px;
+            background: white;
+            border: 3px solid var(--light-green);
+            border-radius: 50%;
+            box-shadow: 0 2px 8px rgba(0, 66, 37, 0.3);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .audio-progress:hover .audio-progress-fill::after {
+            opacity: 1;
+        }
+
+        .audio-time {
+            font-size: 0.85rem;
+            color: var(--text-gray);
+            text-align: center;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            margin-top: 0.25rem;
+        }
+
+        .audio-error {
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-5px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Hover effect for progress bar */
+        .audio-progress:hover .audio-progress-fill::after {
+            transform: translateY(-50%) scale(1.2);
+        }
+
+        /* Playing state enhancements */
+        .audio-player.playing {
+            background: linear-gradient(135deg, rgba(0, 66, 37, 0.08), rgba(102, 187, 106, 0.05));
+            transition: background 0.3s ease;
+        }
+
+        .audio-player.playing .play-button {
+            background: linear-gradient(135deg, var(--accent-green), var(--light-green));
+            animation: subtle-glow 2s ease-in-out infinite;
+        }
+
+        @keyframes subtle-glow {
+            0%, 100% {
+                box-shadow: 0 4px 15px rgba(102, 187, 106, 0.3);
+            }
+            50% {
+                box-shadow: 0 4px 25px rgba(102, 187, 106, 0.5);
+            }
+        }
+
+        /* Modern waveform animation update */
+        .audio-player.playing .waveform {
+            filter: drop-shadow(0 2px 4px rgba(102, 187, 106, 0.3));
+        }
+
+        /* Disabled state for error */
+        .play-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            background: #999;
+        }
+
+        .play-button:disabled:hover {
+            transform: none;
+            background: #999;
+        }
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 0.5rem 0;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .navbar.scrolled {
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+        }
+
+        .logo {
+            width: 60px;
+            height: 60px;
+            background: url('./EGHILogo.png') no-repeat center;
+            background-size: contain;
+        }
+
+        .logo-text {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--primary-green);
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 0.5rem;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: var(--text-gray);
+            font-weight: 500;
+            font-size: 0.95rem;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .nav-menu a:hover,
+        .nav-menu a.active {
+            color: var(--primary-green);
+            background: rgba(0, 66, 37, 0.08);
+        }
+
+        .menu-toggle {
+            display: none;
+            width: 30px;
+            height: 30px;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .menu-toggle span {
+            display: block;
+            width: 25px;
+            height: 2px;
+            background: var(--primary-green);
+            margin: 5px 0;
+            transition: all 0.3s ease;
+        }
+
+        /* Intro Section */
+        .intro-section {
+            padding: 120px 0 60px;
+            background: linear-gradient(135deg, rgba(0, 66, 37, 0.03) 0%, rgba(102, 187, 106, 0.03) 100%);
+            text-align: center;
+        }
+
+        .intro-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .intro-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-green);
+            margin-bottom: 1.5rem;
+        }
+
+        .intro-text {
+            font-size: 1.2rem;
+            color: var(--text-gray);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .intro-subtitle {
+            font-size: 1.4rem;
+            font-style: italic;
+            color: var(--accent-green);
+            margin-top: 2rem;
+        }
+
+        /* Resources Section */
+        .resources-section {
+            padding: 60px 0;
+            background: white;
+        }
+
+        .resources-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Category Section */
+        .category-section {
+            margin-bottom: 60px;
+        }
+
+        .category-header {
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid rgba(0, 66, 37, 0.1);
+        }
+
+        .category-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-green);
+        }
+
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 2rem;
+        }
+
+        /* Resource Card */
+        .resource-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .resource-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-green), var(--light-green));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .resource-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .resource-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .article-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--primary-green);
+            margin-bottom: 1rem;
+        }
+
+        .article-source {
+            font-size: 0.9rem;
+            color: var(--text-gray);
+            margin-bottom: 1rem;
+            font-style: italic;
+        }
+
+        .article-description {
+            color: var(--text-gray);
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Audio Player */
+        .audio-player {
+            background: rgba(0, 66, 37, 0.05);
+            border-radius: 15px;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+
+        .audio-controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .play-button {
+            width: 40px;
+            height: 40px;
+            background: var(--primary-green);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+        }
+
+        .play-button:hover {
+            background: var(--accent-green);
+            transform: scale(1.05);
+        }
+
+        .audio-info {
+            flex: 1;
+        }
+
+        .audio-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--primary-green);
+            margin-bottom: 0.25rem;
+        }
+
+        .audio-duration {
+            font-size: 0.85rem;
+            color: var(--text-gray);
+        }
+
+        /* Waveform Animation */
+        .waveform {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            height: 30px;
+            margin: 0.5rem 0;
+        }
+
+        .wave-bar {
+            width: 3px;
+            background: var(--light-green);
+            border-radius: 3px;
+            transition: height 0.3s ease;
+        }
+
+        .wave-bar:nth-child(odd) {
+            animation: wave1 1s ease-in-out infinite;
+        }
+
+        .wave-bar:nth-child(even) {
+            animation: wave2 1s ease-in-out infinite 0.5s;
+        }
+
+        @keyframes wave1 {
+            0%, 100% { height: 10px; }
+            50% { height: 25px; }
+        }
+
+        @keyframes wave2 {
+            0%, 100% { height: 15px; }
+            50% { height: 20px; }
+        }
+
+        .audio-player.playing .wave-bar {
+            animation-play-state: running;
+        }
+
+        .audio-player:not(.playing) .wave-bar {
+            animation-play-state: paused;
+            height: 10px;
+        }
+
+        .transcript-snippet {
+            font-size: 0.85rem;
+            color: var(--text-gray);
+            font-style: italic;
+            margin-top: 0.5rem;
+            padding: 0.5rem;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 8px;
+        }
+
+        /* Quiz Section */
+        .quiz-section {
+            padding: 80px 0;
+            background: linear-gradient(135deg, var(--gray-bg) 0%, white 100%);
+        }
+
+        .quiz-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .quiz-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .quiz-header h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-green);
+            margin-bottom: 1rem;
+        }
+
+        .quiz-header p {
+            font-size: 1.1rem;
+            color: var(--text-gray);
+        }
+
+        .quiz-card {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(0, 66, 37, 0.1);
+        }
+
+        .question-container {
+            display: none;
+        }
+
+        .question-container.active {
+            display: block;
+        }
+
+        .question-number {
+            color: var(--light-green);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .question-text {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--primary-green);
+            margin-bottom: 2rem;
+        }
+
+        .answer-options {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .answer-option {
+            background: var(--gray-bg);
+            border: 2px solid transparent;
+            border-radius: 12px;
+            padding: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.05rem;
+        }
+
+        .answer-option:hover {
+            background: white;
+            border-color: var(--light-green);
+            transform: translateX(5px);
+        }
+
+        .answer-option.selected {
+            background: rgba(102, 187, 106, 0.1);
+            border-color: var(--light-green);
+        }
+
+        .quiz-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+        }
+
+        .quiz-button {
+            padding: 0.8rem 2rem;
+            background: var(--primary-green);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quiz-button:hover {
+            background: var(--accent-green);
+            transform: translateY(-2px);
+        }
+
+        .quiz-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Quiz Results */
+        .quiz-results {
+            display: none;
+            text-align: center;
+        }
+
+        .score-circle {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 2rem;
+            background: linear-gradient(135deg, var(--primary-green), var(--light-green));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+            font-weight: 700;
+            box-shadow: 0 20px 40px rgba(0, 66, 37, 0.2);
+        }
+
+        .results-message {
+            font-size: 1.3rem;
+            color: var(--primary-green);
+            margin-bottom: 1rem;
+        }
+
+        .results-feedback {
+            color: var(--text-gray);
+            line-height: 1.7;
+            margin-bottom: 2rem;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--primary-green);
+            color: white;
+            padding: 3rem 0 2rem;
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            opacity: 1;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-menu {
+                display: flex;
+                position: fixed;
+                top: 60px;
+                right: -100%;
+                width: 280px;
+                border-radius: 20px 0 0 20px;
+                height: calc(100vh - 60px);
+                background: linear-gradient(180deg, #ffffff 0%, #f8faf8 100%);
+                flex-direction: column;
+                padding: 2rem 1.5rem;
+                box-shadow: -10px 0 40px rgba(0, 66, 37, 0.15);
+                transition: right 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+                gap: 0.5rem;
+                border-left: 1px solid rgba(0, 66, 37, 0.08);
+            }
+
+            .nav-menu.active {
+                right: 0;
+            }
+
+            .nav-menu li {
+                width: 100%;
+                list-style: none;
+            }
+
+            .nav-menu a {
+                display: flex;
+                align-items: center;
+                padding: 1rem 1.25rem;
+                font-size: 1.05rem;
+                font-weight: 500;
+                color: #333;
+                text-decoration: none;
+                transition: all 0.2s ease;
+                border: 1px solid transparent;
+            }
+
+            .nav-menu a:hover {
+                background: rgba(0, 66, 37, 0.08);
+                color: var(--primary-green);
+                transform: translateX(4px);
+            }
+
+            .nav-menu a.active {
+                background: linear-gradient(135deg, var(--primary-green), var(--accent-green));
+                color: white;
+                font-weight: 600;
+                box-shadow: 0 4px 15px rgba(0, 66, 37, 0.25);
+            }
+
+            .nav-menu a.active:hover {
+                transform: translateX(4px);
+            }
+
+            .intro-title {
+                font-size: 2rem;
+            }
+
+            .resources-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .quiz-card {
+                padding: 2rem;
+            }
+
+            .question-text {
+                font-size: 1.1rem;
+            }
+
+            .answer-option {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo-container">
+                <div class="logo"></div>
+            </a>
+            <button class="menu-toggle" id="menuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="events.html">Events</a></li>
+                <li><a href="membership.html">Membership</a></li>
+                <li><a href="resources.html" class="active">Resources</a></li>
+                <li><a href="fermenting.html">Blog</a></li>
+                <li><a href="contactus.html">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Intro Section -->
+    <section class="intro-section">
+        <div class="intro-container">
+            <h1 class="intro-title">Knowledge Guides Our Journey</h1>
+            <p class="intro-text">
+                At EGHI, we believe that understanding gut health begins with evidence-based research and trusted resources. These carefully curated materials, suplemented by NotebookLM, represent the foundation of our educational mission.
+            </p>
+            <p class="intro-subtitle">"All disease begins in the gut." -Hippocrates</p>
+        </div>
+    </section>
+
+    <!-- Resources Section -->
+    <section class="resources-section">
+        <div class="resources-container">
+            
+            <!-- Diet and Gut Health Category -->
+            <div class="category-section">
+                <div class="category-header">
+                    <h2 class="category-title">Diet and Gut Health</h2>
+                </div>
+                <div class="resources-grid">
+                    
+                    <!-- Resource Card 1 -->
+                    <div class="resource-card">
+                        <h3 class="article-title">The Mediterranean Diet and Microbiome Diversity</h3>
+                        <p class="article-source">Journal of Nutritional Science, 2023</p>
+                        <p class="article-description">
+                            This groundbreaking study explores the human gut microbiome, a massive ecosystem of trillions of microorganisms that acts as a vital "hidden organ" regulating metabolism, immunity, and neurological health.
+                        </p>
+                        <div class="audio-player" data-audio="Diet, Gut Microbiome, and Human Health.wav">
+                            <div class="audio-controls">
+                                <button class="play-button" onclick="toggleAudio(this)">▶</button>
+                                <div class="audio-info">
+                                    <div class="audio-title">Listen to Summary</div>
+                                    <div class="audio-duration">Duration: 23:30</div>
+                                </div>
+                            </div>
+                            <div class="waveform">
+                                <div class="wave-bar"></div>
+                                <div class="wave-bar"></div>
+                                <div class="wave-bar"></div>
+                                <div class="wave-bar"></div>
+                                <div class="wave-bar"></div>
+                                <div class="wave-bar"></div>
+                                <div class="wave-bar"></div>
+                                <div class="wave-bar"></div>
+                                <div class="wave-bar"></div>
+                                <div class="wave-bar"></div>
+                            </div>
+                            <p class="transcript-snippet">
+                                "Today we are exploring something really remarkable. Something living inside each of us right now..."
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Resource Card 2 -->
+                    <div class="resource-card">
+                        <h3 class="article-title">Fermentation & Gut Health</h3>
+                        <p class="article-source">A collection of great journals</p>
+                        <p class="article-description">
+                            These sources examine the therapeutic potential of fermented foods as functional systems that influence human health through the gut-brain axis.
+                        </p>
+                        <div class="audio-player" data-audio="Fermented_Foods_and_the_Gut_Brain_Axis.wav">
+                            <div class="audio-controls">
+                                <button class="play-button" onclick="toggleAudio(this)">▶</button>
+                                <div class="audio-info">
+                                    <div class="audio-title">Listen to Summary</div>
+                                    <div class="audio-duration">Duration: 15:19</div>
+                                </div>
+                            </div>
+                            <div class="waveform">
+                                <div class="wave-bar"></div>
+                                <div class="wave-bar"></div>
+                                <div class="wave-bar"></div>
+                                <div class="wave-bar"></div>
+                                <div class="wave-bar"></div>
+                                <div class="wave-bar"></div>
+                                <div class="wave-bar"></div>
+                                <div class="wave-bar"></div>
+                                <div class="wave-bar"></div>
+                                <div class="wave-bar"></div>
+                            </div>
+                            <p class="transcript-snippet">
+                                "We are talking about fermented foods. Everything from kinchin kefir to that bottle of kombucha that might be sitting in your fridge right now..."
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Microbiome Basics Category -->
+            <div class="category-section">
+                <div class="category-header">
+                    <h2 class="category-title">Microbiome Basics</h2>
+                </div>
+                <div class="resources-grid">
+                    
+                    <!-- Resource Card 3 -->
+                    <div class="resource-card">
+                        <h3 class="article-title">Understanding Your Gut Microbiome</h3>
+                        <p class="article-source">Springer, 2020</p>
+                        <p class="article-description">
+                            A comprehensive overview of the vast ecosystem of the human gut microbiota, which comprises trillions of microorganisms essential for maintaining host health.
+                        </p>
+                        <div class="audio-player" data-audio="Gut_Microbes_Control_Brain_and_Disease.wav">
+                            <div class="audio-controls">
+                                <button class="play-button" onclick="toggleAudio(this)">▶</button>
+                                <div class="audio-info">
+                                    <div class="audio-title">Listen to Summary</div>
+                                    <div class="audio-duration">Duration: 14:50</div>
+                                </div>
+                            </div>
+                            <div class="waveform">
+                                <div class="wave-bar"></div>
+                                <div class="wave-bar"></div>
+                                <div class="wave-bar"></div>
+                                <div class="wave-bar"></div>
+                                <div class="wave-bar"></div>
+                                <div class="wave-bar"></div>
+                                <div class="wave-bar"></div>
+                                <div class="wave-bar"></div>
+                                <div class="wave-bar"></div>
+                                <div class="wave-bar"></div>
+                            </div>
+                            <p class="transcript-snippet">
+                                "We're going to unpack this incredible, complex community that lives inside all of us. Trillions of them. Trillions, right?..."
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Resource Card 4 -->
+                    <div class="resource-card">
+                        <h3 class="article-title">The Gut-Brain Connection Explained</h3>
+                        <p class="article-source">International Journal for Multidisciplinary Research, 2024</p>
+                        <p class="article-description">
+                            This is a comprehensive overview of the gut-brain axis, a multidimensional communication network linking the gastrointestinal system to the central nervous system.
+                        </p>
+                        <div class="audio-player" data-audio="How_Your_Gut_Controls_Your_Brain_and_Mood.wav">
+                            <div class="audio-controls">
+                                <button class="play-button" onclick="toggleAudio(this)">▶</button>
+                                <div class="audio-info">
+                                    <div class="audio-title">Listen to Summary</div>
+                                    <div class="audio-duration">Duration: 14:59</div>
+                                </div>
+                            </div>
+                            <div class="waveform">
+                                <div class="wave-bar"></div>
+                                <div class="wave-bar"></div>
+                                <div class="wave-bar"></div>
+                                <div class="wave-bar"></div>
+                                <div class="wave-bar"></div>
+                                <div class="wave-bar"></div>
+                                <div class="wave-bar"></div>
+                                <div class="wave-bar"></div>
+                                <div class="wave-bar"></div>
+                                <div class="wave-bar"></div>
+                            </div>
+                            <p class="transcript-snippet">
+                                "And today we are exploring something that honestly fundamentally changes how you understand your own feelings, your digestion, and your mental health..."
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            
+        </div>
+    </section>
+
+    <!-- Quiz Section -->
+ <section class="quiz-section">
+    <div class="quiz-container">
+        <div class="quiz-header">
+            <h2>Test Your Gut Health Knowledge</h2>
+            <p>Take our educational quiz to reinforce what you've learned from our resources</p>
+        </div>
+
+        <div class="quiz-card">
+            <div id="quizContent">
+                <!-- Quiz questions will be dynamically inserted here -->
+            </div>
+            
+            <div class="quiz-results" id="quizResults">
+                <div class="score-circle" id="scoreCircle">0/10</div>
+                <h3 class="results-message" id="resultsMessage">Great job!</h3>
+                <p class="results-feedback" id="resultsFeedback">
+                    You've shown a solid understanding of gut health basics.
+                </p>
+                <div class="results-buttons">
+                    <button class="quiz-button btn-review" onclick="reviewQuiz()">
+                        <span>📋</span> Review Answers
+                    </button>
+                    <button class="quiz-button btn-restart" onclick="restartQuiz()">
+                        <span>🔄</span> Restart Quiz
+                    </button>
+                </div>
+            </div>
+
+            <div class="quiz-review" id="quizReview">
+                <h3 class="review-title">Quiz Review</h3>
+                <div class="review-content" id="reviewContent">
+                    <!-- Review content will be dynamically inserted here -->
+                </div>
+                <button class="quiz-button" onclick="backToResults()">Back to Results</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+/* Additional Quiz Styles */
+.quiz-navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 2rem;
+    gap: 1rem;
+}
+
+.nav-group {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.quiz-button {
+    padding: 0.8rem 2rem;
+    background: var(--primary-green);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.quiz-button:hover:not(:disabled) {
+    background: var(--accent-green);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 66, 37, 0.2);
+}
+
+.quiz-button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.quiz-button.btn-secondary {
+    background: white;
+    color: var(--primary-green);
+    border: 2px solid var(--primary-green);
+}
+
+.quiz-button.btn-secondary:hover:not(:disabled) {
+    background: rgba(0, 66, 37, 0.05);
+}
+
+.answer-option {
+    background: var(--gray-bg);
+    border: 2px solid transparent;
+    border-radius: 12px;
+    padding: 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1.05rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.answer-option::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(102, 187, 106, 0.1);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 0.6s ease;
+}
+
+.answer-option:hover:not(.disabled) {
+    background: white;
+    border-color: var(--light-green);
+    transform: translateX(5px);
+}
+
+.answer-option.selected {
+    background: rgba(102, 187, 106, 0.1);
+    border-color: var(--light-green);
+}
+
+.answer-option.correct {
+    animation: correctPulse 0.6s ease;
+    background: rgba(102, 187, 106, 0.2);
+    border-color: var(--light-green);
+    color: var(--primary-green);
+}
+
+.answer-option.correct::before {
+    width: 300%;
+    height: 300%;
+    background: rgba(102, 187, 106, 0.2);
+}
+
+.answer-option.incorrect {
+    animation: incorrectShake 0.5s ease;
+    background: rgba(211, 47, 47, 0.1);
+    border-color: #d32f2f;
+    color: #d32f2f;
+}
+
+.answer-option.disabled {
+    cursor: default;
+    opacity: 0.8;
+}
+
+.answer-indicator {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.5rem;
+    opacity: 0;
+    animation: fadeInScale 0.3s ease forwards;
+    animation-delay: 0.3s;
+}
+
+@keyframes correctPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+@keyframes incorrectShake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+@keyframes fadeInScale {
+    0% {
+        opacity: 0;
+        transform: translateY(-50%) scale(0.5);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(-50%) scale(1);
+    }
+}
+
+.question-progress {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+}
+
+.progress-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(0, 66, 37, 0.2);
+    transition: all 0.3s ease;
+}
+
+.progress-dot.active {
+    background: var(--primary-green);
+    transform: scale(1.2);
+}
+
+.progress-dot.completed {
+    background: var(--light-green);
+}
+
+.progress-dot.correct {
+    background: var(--light-green);
+}
+
+.progress-dot.incorrect {
+    background: #d32f2f;
+}
+
+/* Review Styles */
+.quiz-review {
+    display: none;
+}
+
+.review-title {
+    font-size: 2rem;
+    color: var(--primary-green);
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.review-item {
+    background: white;
+    border: 1px solid rgba(0, 66, 37, 0.1);
+    border-radius: 15px;
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.review-item:hover {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.review-question {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--primary-green);
+    margin-bottom: 1rem;
+}
+
+.review-options {
+    margin-bottom: 1rem;
+}
+
+.review-option {
+    padding: 0.8rem 1rem;
+    margin-bottom: 0.5rem;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.review-option.user-answer.correct {
+    background: rgba(102, 187, 106, 0.2);
+    color: var(--primary-green);
+}
+
+.review-option.user-answer.incorrect {
+    background: rgba(211, 47, 47, 0.1);
+    color: #d32f2f;
+}
+
+.review-option.correct-answer {
+    background: rgba(102, 187, 106, 0.1);
+    border: 2px solid var(--light-green);
+    font-weight: 600;
+}
+
+.review-fact {
+    background: rgba(249, 168, 37, 0.1);
+    border-left: 4px solid var(--gold);
+    padding: 1rem;
+    border-radius: 8px;
+    margin-top: 1rem;
+    font-style: italic;
+    color: var(--text-gray);
+}
+
+.results-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.btn-review {
+    background: var(--gold);
+}
+
+.btn-review:hover {
+    background: #f57c00;
+}
+
+.btn-restart {
+    background: var(--light-green);
+}
+
+.btn-restart:hover {
+    background: var(--accent-green);
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+    .quiz-navigation {
+        flex-direction: column;
+    }
+
+    .nav-group {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .results-buttons {
+        flex-direction: column;
+    }
+
+    .quiz-button {
+        width: 100%;
+        justify-content: center;
+    }
+}
+</style>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-links">
+            <a href="index.html">Home</a>
+            <a href="aboutus.html">About</a>
+            <a href="events.html">Events</a>
+            <a href="membership.html">Membership</a>
+            <a href="contactus.html">Contact</a>
+        </div>
+        <p>&copy; 2025 Emory Gut Health Initiative. All rights reserved.</p>
+    </footer>
+
+    <script>
+// Quiz Questions with fun facts
+const quizQuestions = [
+    {
+        question: "What percentage of serotonin is produced in the gut?",
+        options: ["50%", "70%", "90%", "30%"],
+        correct: 2,
+        explanation: "90% of serotonin is produced in the gut",
+        funFact: "This is why the gut is often called the 'second brain' - it produces more serotonin than the brain itself!"
+    },
+    {
+        question: "How many microorganisms approximately live in the human gut?",
+        options: ["100 million", "1 billion", "10 billion", "100 trillion"],
+        correct: 3,
+        explanation: "The gut contains over 100 trillion microorganisms",
+        funFact: "That's about 10 times more bacterial cells than human cells in your entire body!"
+    },
+    {
+        question: "Which diet has been shown to increase gut microbiome diversity?",
+        options: ["Ketogenic", "Mediterranean", "Paleo", "Low-carb"],
+        correct: 1,
+        explanation: "The Mediterranean diet promotes beneficial gut bacteria diversity",
+        funFact: "The Mediterranean diet's high fiber content from fruits, vegetables, and whole grains feeds beneficial bacteria."
+    },
+    {
+        question: "What connects the gut and brain for bidirectional communication?",
+        options: ["Spinal cord", "Vagus nerve", "Lymphatic system", "Blood vessels"],
+        correct: 1,
+        explanation: "The vagus nerve serves as the main communication highway",
+        funFact: "The vagus nerve is the longest cranial nerve, running from the brain stem to the abdomen."
+    },
+    {
+        question: "Which foods are best for increasing beneficial gut bacteria?",
+        options: ["Processed foods", "Fermented foods", "Fried foods", "Sugary foods"],
+        correct: 1,
+        explanation: "Fermented foods like yogurt and kimchi increase beneficial bacteria",
+        funFact: "Fermented foods contain live probiotics that can colonize your gut and improve digestive health."
+    },
+    {
+        question: "How much does the gut microbiome approximately weigh?",
+        options: ["100 grams", "500 grams", "2 kilograms", "5 kilograms"],
+        correct: 2,
+        explanation: "The gut microbiome weighs about 2 kilograms",
+        funFact: "Your gut microbiome weighs about as much as your brain and is just as important!"
+    },
+    {
+        question: "What type of fiber feeds beneficial gut bacteria?",
+        options: ["Soluble fiber", "Prebiotic fiber", "Insoluble fiber", "Synthetic fiber"],
+        correct: 1,
+        explanation: "Prebiotic fiber specifically feeds beneficial gut bacteria",
+        funFact: "Prebiotics are found in foods like garlic, onions, bananas, and asparagus."
+    },
+    {
+        question: "Which gut bacteria type increased with Mediterranean diet?",
+        options: ["Firmicutes", "Bacteroidetes", "Proteobacteria", "Actinobacteria"],
+        correct: 1,
+        explanation: "Bacteroidetes populations increased with Mediterranean diet",
+        funFact: "Higher Bacteroidetes levels are associated with lower body weight and better metabolic health."
+    },
+    {
+        question: "How long does it typically take to see microbiome changes from diet?",
+        options: ["24 hours", "1 week", "2-4 weeks", "6 months"],
+        correct: 2,
+        explanation: "Significant microbiome changes occur within 2-4 weeks",
+        funFact: "Some changes can occur within 24 hours, but lasting changes take a few weeks of consistent diet."
+    },
+    {
+        question: "What is the gut often referred to as?",
+        options: ["First brain", "Second brain", "Third brain", "Mini brain"],
+        correct: 1,
+        explanation: "The gut is called the 'second brain' due to its neural network",
+        funFact: "The gut has over 500 million neurons, forming the enteric nervous system."
+    }
+];
+
+let currentQuestion = 0;
+let userAnswers = [];
+let selectedAnswer = null;
+let isChecked = false;
+
+// Initialize quiz
+function initQuiz() {
+    currentQuestion = 0;
+    userAnswers = [];
+    selectedAnswer = null;
+    isChecked = false;
+    showQuestion();
+}
+
+// Show current question
+function showQuestion() {
+    const quizContent = document.getElementById('quizContent');
+    const question = quizQuestions[currentQuestion];
+    
+    const progressDots = Array.from({length: quizQuestions.length}, (_, i) => {
+        let className = 'progress-dot';
+        if (i === currentQuestion) {
+            className += ' active';
+        } else if (i < currentQuestion) {
+            // Check if the answer was correct or incorrect
+            if (userAnswers[i] !== undefined) {
+                if (userAnswers[i] === quizQuestions[i].correct) {
+                    className += ' correct';
+                } else {
+                    className += ' incorrect';
+                }
+            }
+        }
+        return `<div class="${className}"></div>`;
+    }).join('');
+    
+    const isLastQuestion = currentQuestion === quizQuestions.length - 1;
+    const isFirstQuestion = currentQuestion === 0;
+    
+    quizContent.innerHTML = `
+        <div class="question-container active">
+            <div class="question-progress">${progressDots}</div>
+            <p class="question-number">Question ${currentQuestion + 1} of ${quizQuestions.length}</p>
+            <h3 class="question-text">${question.question}</h3>
+            <div class="answer-options">
+                ${question.options.map((option, index) => `
+                    <div class="answer-option" onclick="selectAnswer(${index})" data-index="${index}">
+                        ${option}
+                        <span class="answer-indicator"></span>
+                    </div>
+                `).join('')}
+            </div>
+            <div class="quiz-navigation">
+                <div class="nav-group">
+                    ${!isFirstQuestion ? `<button class="quiz-button btn-secondary" onclick="previousQuestion()">← Back</button>` : ''}
+                </div>
+                <div class="nav-group">
+                    <button class="quiz-button" id="checkButton" onclick="checkAnswer()" ${!selectedAnswer ? 'disabled' : ''}>
+                        ${isLastQuestion ? 'Submit' : 'Check'}
+                    </button>
+                    ${!isLastQuestion ? `<button class="quiz-button" id="nextButton" onclick="nextQuestion()" disabled>Next →</button>` : ''}
+                </div>
+            </div>
+        </div>
+    `;
+    
+    document.getElementById('quizResults').style.display = 'none';
+    document.getElementById('quizReview').style.display = 'none';
+    
+    // Reset state
+    selectedAnswer = null;
+    isChecked = false;
+}
+
+function selectAnswer(index) {
+    if (isChecked) return; // Don't allow changing answer after checking
+    
+    selectedAnswer = index;
+    const options = document.querySelectorAll('.answer-option');
+    options.forEach((option, i) => {
+        option.classList.toggle('selected', i === index);
+    });
+    
+    // Enable check button
+    document.getElementById('checkButton').disabled = false;
+}
+
+function checkAnswer() {
+    if (!selectedAnswer !== null && !isChecked) {
+        isChecked = true;
+        const question = quizQuestions[currentQuestion];
+        const options = document.querySelectorAll('.answer-option');
+        
+        // Disable all options
+        options.forEach(option => option.classList.add('disabled'));
+        
+        // Show correct/incorrect answers
+        options.forEach((option, index) => {
+            if (index === question.correct) {
+                option.classList.add('correct');
+                option.querySelector('.answer-indicator').textContent = '✓';
+            } else if (index === selectedAnswer && selectedAnswer !== question.correct) {
+                option.classList.add('incorrect');
+                option.querySelector('.answer-indicator').textContent = '✗';
+            }
+        });
+        
+        // Store answer
+        userAnswers[currentQuestion] = selectedAnswer;
+        
+        // Update buttons
+        const checkButton = document.getElementById('checkButton');
+        const nextButton = document.getElementById('nextButton');
+        
+        if (currentQuestion === quizQuestions.length - 1) {
+            // Last question - show results after a delay
+            checkButton.textContent = 'View Results';
+            checkButton.onclick = showResults;
+        } else {
+            // Enable next button
+            checkButton.style.display = 'none';
+            nextButton.disabled = false;
+        }
+    }
+}
+
+function nextQuestion() {
+    if (isChecked && currentQuestion < quizQuestions.length - 1) {
+        currentQuestion++;
+        showQuestion();
+    }
+}
+
+function previousQuestion() {
+    if (currentQuestion > 0) {
+        currentQuestion--;
+        showQuestion();
+        
+        // If we have a previous answer, show it as checked
+        if (userAnswers[currentQuestion] !== undefined) {
+            isChecked = true;
+            selectedAnswer = userAnswers[currentQuestion];
+            
+            setTimeout(() => {
+                const options = document.querySelectorAll('.answer-option');
+                const question = quizQuestions[currentQuestion];
+                
+                options.forEach((option, index) => {
+                    option.classList.add('disabled');
+                    if (index === selectedAnswer) {
+                        option.classList.add('selected');
+                    }
+                    if (index === question.correct) {
+                        option.classList.add('correct');
+                        option.querySelector('.answer-indicator').textContent = '✓';
+                    } else if (index === selectedAnswer && selectedAnswer !== question.correct) {
+                        option.classList.add('incorrect');
+                        option.querySelector('.answer-indicator').textContent = '✗';
+                    }
+                });
+                
+                // Update buttons
+                document.getElementById('checkButton').style.display = 'none';
+                if (currentQuestion < quizQuestions.length - 1) {
+                    document.getElementById('nextButton').disabled = false;
+                }
+            }, 100);
+        }
+    }
+}
+
+function showResults() {
+    let score = 0;
+    userAnswers.forEach((answer, i) => {
+        if (answer === quizQuestions[i].correct) score++;
+    });
+    
+    document.getElementById('quizContent').innerHTML = '';
+    document.getElementById('quizResults').style.display = 'block';
+    
+    const scoreCircle = document.getElementById('scoreCircle');
+    const resultsMessage = document.getElementById('resultsMessage');
+    const resultsFeedback = document.getElementById('resultsFeedback');
+    
+    // Animate score
+    let currentScore = 0;
+    const scoreInterval = setInterval(() => {
+        if (currentScore <= score) {
+            scoreCircle.textContent = `${currentScore}/10`;
+            currentScore++;
+        } else {
+            clearInterval(scoreInterval);
+        }
+    }, 100);
+    
+    // Set message based on score
+    if (score >= 9) {
+        resultsMessage.textContent = 'Outstanding!';
+        resultsFeedback.textContent = 'You have mastered gut health knowledge! You\'re ready to lead in this field.';
+    } else if (score >= 7) {
+        resultsMessage.textContent = 'Excellent work!';
+        resultsFeedback.textContent = 'You have a strong understanding of gut health. Keep learning and growing!';
+    } else if (score >= 5) {
+        resultsMessage.textContent = 'Good job!';
+        resultsFeedback.textContent = 'You\'re on the right track. Review the resources above to strengthen your knowledge.';
+    } else {
+        resultsMessage.textContent = 'Keep learning!';
+        resultsFeedback.textContent = 'Gut health is complex, but you\'re making progress. Review the answers and try again!';
+    }
+}
+
+function reviewQuiz() {
+    document.getElementById('quizResults').style.display = 'none';
+    document.getElementById('quizReview').style.display = 'block';
+    
+    const reviewContent = document.getElementById('reviewContent');
+    reviewContent.innerHTML = quizQuestions.map((question, index) => {
+        const userAnswer = userAnswers[index];
+        const isCorrect = userAnswer === question.correct;
+        
+        return `
+            <div class="review-item">
+                <h4 class="review-question">Q${index + 1}: ${question.question}</h4>
+                <div class="review-options">
+                    ${question.options.map((option, optIndex) => {
+                        let className = 'review-option';
+                        let icon = '';
+                        
+                        if (optIndex === userAnswer) {
+                            className += isCorrect ? ' user-answer correct' : ' user-answer incorrect';
+                            icon = isCorrect ? '✓ Your answer' : '✗ Your answer';
+                        }
+                        if (optIndex === question.correct && !isCorrect) {
+                            className += ' correct-answer';
+                            icon = '✓ Correct answer';
+                        }
+                        
+                        return `<div class="${className}">${option} ${icon ? `<span style="margin-left: auto; font-size: 0.9rem; opacity: 0.8;">${icon}</span>` : ''}</div>`;
+                    }).join('')}
+                </div>
+                <div class="review-fact">
+                    <strong>Fun Fact:</strong> ${question.funFact}
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+function backToResults() {
+    document.getElementById('quizReview').style.display = 'none';
+    document.getElementById('quizResults').style.display = 'block';
+}
+
+function restartQuiz() {
+    initQuiz();
+}
+
+// Alias for retakeQuiz to maintain compatibility
+function retakeQuiz() {
+    restartQuiz();
+}
+
+// Start the quiz on page load
+window.addEventListener('DOMContentLoaded', initQuiz);
+// Audio Player Functionality
+let currentAudio = null;
+let audioElements = new Map();
+
+function toggleAudio(button) {
+    const player = button.closest('.audio-player');
+    const audioFile = player.dataset.audio;
+    
+    // Stop any other playing audio
+    if (currentAudio && currentAudio !== audioElements.get(audioFile)) {
+        stopAllAudio();
+    }
+    
+    // Get or create audio element
+    let audio = audioElements.get(audioFile);
+    
+    if (!audio) {
+        // Create new audio element
+        audio = new Audio(audioFile);
+        audioElements.set(audioFile, audio);
+        
+        // Add event listeners
+        audio.addEventListener('ended', () => {
+            button.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
+            player.classList.remove('playing');
+            updateProgress(player, 0);
+            currentAudio = null;
+        });
+        
+        audio.addEventListener('timeupdate', () => {
+            updateProgress(player, (audio.currentTime / audio.duration) * 100);
+            updateTimeDisplay(player, audio.currentTime, audio.duration);
+        });
+        
+        audio.addEventListener('loadedmetadata', () => {
+            updateTimeDisplay(player, 0, audio.duration);
+        });
+        
+        audio.addEventListener('error', (e) => {
+            console.error('Audio error:', e);
+            showAudioError(player);
+        });
+    }
+    
+    // Toggle play/pause
+    if (audio.paused) {
+        audio.play().then(() => {
+            button.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>';
+            player.classList.add('playing');
+            currentAudio = audio;
+        }).catch(error => {
+            console.error('Playback error:', error);
+            showAudioError(player);
+        });
+    } else {
+        audio.pause();
+        button.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
+        player.classList.remove('playing');
+        currentAudio = null;
+    }
+}
+
+function stopAllAudio() {
+    audioElements.forEach((audio, key) => {
+        if (!audio.paused) {
+            audio.pause();
+            audio.currentTime = 0;
+            
+            // Find the corresponding player and update UI
+            const player = document.querySelector(`[data-audio="${key}"]`);
+            if (player) {
+                player.classList.remove('playing');
+                player.querySelector('.play-button').innerHTML = '▶';
+                updateProgress(player, 0);
+            }
+        }
+    });
+    currentAudio = null;
+}
+
+function updateProgress(player, percentage) {
+    const progressBar = player.querySelector('.audio-progress-fill');
+    if (progressBar) {
+        progressBar.style.width = percentage + '%';
+    }
+}
+
+function updateTimeDisplay(player, currentTime, duration) {
+    const timeDisplay = player.querySelector('.audio-time');
+    if (timeDisplay && !isNaN(duration)) {
+        const current = formatTime(currentTime);
+        const total = formatTime(duration);
+        timeDisplay.textContent = `${current} / ${total}`;
+    }
+}
+
+function formatTime(seconds) {
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+}
+
+function showAudioError(player) {
+    const button = player.querySelector('.play-button');
+    button.innerHTML = '⚠️';
+    button.disabled = true;
+    
+    const errorMsg = document.createElement('div');
+    errorMsg.className = 'audio-error';
+    errorMsg.textContent = 'Audio file not found';
+    errorMsg.style.cssText = `
+        color: #d32f2f;
+        font-size: 0.85rem;
+        margin-top: 0.5rem;
+        font-style: italic;
+    `;
+    
+    if (!player.querySelector('.audio-error')) {
+        player.appendChild(errorMsg);
+    }
+}
+
+// Initialize audio players with enhanced UI
+document.addEventListener('DOMContentLoaded', function() {
+    // Add progress bars to all audio players
+    document.querySelectorAll('.audio-player').forEach(player => {
+        // Add progress bar
+        const progressBar = document.createElement('div');
+        progressBar.className = 'audio-progress';
+        progressBar.innerHTML = '<div class="audio-progress-fill"></div>';
+        
+        // Add time display
+        const timeDisplay = document.createElement('div');
+        timeDisplay.className = 'audio-time';
+        timeDisplay.textContent = '0:00 / 0:00';
+        
+        // Insert after waveform
+        const waveform = player.querySelector('.waveform');
+        if (waveform) {
+            waveform.insertAdjacentElement('afterend', progressBar);
+            progressBar.insertAdjacentElement('afterend', timeDisplay);
+        }
+        
+        // Make progress bar clickable
+        progressBar.addEventListener('click', function(e) {
+            const audio = audioElements.get(player.dataset.audio);
+            if (audio && audio.duration) {
+                const rect = progressBar.getBoundingClientRect();
+                const percentage = (e.clientX - rect.left) / rect.width;
+                audio.currentTime = percentage * audio.duration;
+            }
+        });
+    });
+});
+
+// Add keyboard controls
+document.addEventListener('keydown', function(e) {
+    if (currentAudio) {
+        switch(e.key) {
+            case ' ':
+                e.preventDefault();
+                const button = document.querySelector('.audio-player.playing .play-button');
+                if (button) toggleAudio(button);
+                break;
+            case 'ArrowLeft':
+                currentAudio.currentTime = Math.max(0, currentAudio.currentTime - 10);
+                break;
+            case 'ArrowRight':
+                currentAudio.currentTime = Math.min(currentAudio.duration, currentAudio.currentTime + 10);
+                break;
+        }
+    }
+});
+
+// Mobile menu toggle (keeping existing functionality)
+const menuToggle = document.getElementById('menuToggle');
+const navMenu = document.getElementById('navMenu');
+
+menuToggle?.addEventListener('click', () => {
+    navMenu.classList.toggle('active');
+});
+
+// Navbar scroll effect (keeping existing functionality)
+window.addEventListener('scroll', () => {
+    const navbar = document.getElementById('navbar');
+    if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+    } else {
+        navbar.classList.remove('scrolled');
+    }
+});
+</script>
+                        

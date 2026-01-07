@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Membership - EGHI | Emory Gut Health Initiative</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-green: #004225;
+            --accent-green: #2e7d32;
+            --light-green: #66bb6a;
+            --gold: #f9a825;
+            --cream: #fff8e1;
+            --gray-bg: #f8f9fa;
+            --text-dark: #333;
+            --text-gray: #666;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background-color: #ffffff;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 0.5rem 0;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .navbar.scrolled {
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+        }
+
+        .logo {
+            width: 60px;
+            height: 60px;
+            background: url('./EGHILogo.png') no-repeat center;
+            background-size: contain;
+        }
+
+        .logo-text {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--primary-green);
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 0.5rem;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: var(--text-gray);
+            font-weight: 500;
+            font-size: 0.95rem;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .nav-menu a:hover,
+        .nav-menu a.active {
+            color: var(--primary-green);
+            background: rgba(0, 66, 37, 0.08);
+        }
+
+        .menu-toggle {
+            display: none;
+            width: 30px;
+            height: 30px;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .menu-toggle span {
+            display: block;
+            width: 25px;
+            height: 2px;
+            background: var(--primary-green);
+            margin: 5px 0;
+            transition: all 0.3s ease;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            padding: 140px 0 80px;
+            position: relative;
+        }
+
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--primary-green), var(--accent-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.4rem;
+            color: var(--text-gray);
+            margin-bottom: 3rem;
+            max-width: 700px;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 3rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-green);
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: var(--text-gray);
+        }
+
+        .btn-primary {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: var(--primary-green);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 66, 37, 0.2);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 66, 37, 0.3);
+        }
+
+        /* Benefits Section */
+        .benefits {
+            padding: 80px 0;
+            background: white;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-green);
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            font-size: 1.1rem;
+            color: var(--text-gray);
+        }
+
+        .benefits-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .benefit-card {
+            background: white;
+            border: 1px solid rgba(0, 66, 37, 0.1);
+            border-radius: 16px;
+            padding: 2.5rem;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+            border-color: var(--light-green);
+        }
+
+        .benefit-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(102, 187, 106, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .benefit-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--primary-green);
+            margin-bottom: 1rem;
+        }
+
+        .benefit-description {
+            color: var(--text-gray);
+            line-height: 1.7;
+            flex-grow: 1;
+            margin-bottom: 1.5rem;
+        }
+
+        .read-more {
+            color: var(--primary-green);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: gap 0.3s ease;
+        }
+
+        .read-more:hover {
+            gap: 0.8rem;
+        }
+
+        /* Eligibility Section */
+        .eligibility {
+            padding: 80px 0;
+            background: var(--gray-bg);
+        }
+
+        .eligibility-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            text-align: center;
+        }
+
+        .eligibility h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-green);
+            margin-bottom: 2rem;
+        }
+
+        .eligibility-content {
+            font-size: 1.2rem;
+            color: var(--text-gray);
+            margin-bottom: 3rem;
+        }
+
+        .eligibility-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .eligibility-item {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            font-weight: 500;
+            color: var(--primary-green);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .eligibility-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Sign Up Section */
+        .signup {
+            padding: 80px 0;
+            background: white;
+            position: relative;
+        }
+
+        .signup::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--gold), var(--light-green));
+            border-radius: 2px;
+        }
+
+        .signup-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .form-wrapper {
+            background: white;
+            border: 2px solid var(--light-green);
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 20px 40px rgba(0, 66, 37, 0.08);
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .form-header h3 {
+            font-size: 2rem;
+            color: var(--primary-green);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--primary-green);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            border: 1.5px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--light-green);
+            box-shadow: 0 0 0 3px rgba(102, 187, 106, 0.1);
+        }
+
+        .form-submit {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--primary-green), var(--accent-green));
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .form-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 66, 37, 0.3);
+        }
+
+        /* Benefits Details Section */
+        .benefits-details {
+            padding: 100px 0;
+            background: linear-gradient(180deg, #f8faf8 0%, #ffffff 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .benefits-details::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--light-green), transparent);
+        }
+
+        .benefits-details-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .benefits-details-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .benefits-details-header h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-green);
+            margin-bottom: 1rem;
+        }
+
+        .benefits-details-header p {
+            font-size: 1.1rem;
+            color: var(--text-gray);
+        }
+
+        .benefit-detail-card {
+            background: white;
+            border-radius: 20px;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 66, 37, 0.06);
+            border: 1px solid rgba(0, 66, 37, 0.08);
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .benefit-detail-card:nth-child(2) { animation-delay: 0.1s; }
+        .benefit-detail-card:nth-child(3) { animation-delay: 0.2s; }
+        .benefit-detail-card:nth-child(4) { animation-delay: 0.3s; }
+        .benefit-detail-card:nth-child(5) { animation-delay: 0.4s; }
+        .benefit-detail-card:nth-child(6) { animation-delay: 0.5s; }
+        .benefit-detail-card:nth-child(7) { animation-delay: 0.6s; }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .benefit-detail-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0, 66, 37, 0.12);
+            border-color: var(--light-green);
+        }
+
+        .benefit-detail-card:hover .benefit-detail-accent {
+            transform: scaleX(1);
+        }
+
+        .benefit-detail-content {
+            display: flex;
+            gap: 2rem;
+            padding: 2.5rem;
+            align-items: flex-start;
+        }
+
+        .benefit-detail-icon {
+            width: 70px;
+            height: 70px;
+            min-width: 70px;
+            background: linear-gradient(135deg, rgba(102, 187, 106, 0.15), rgba(0, 66, 37, 0.08));
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .benefit-detail-card:hover .benefit-detail-icon {
+            transform: scale(1.05);
+            background: linear-gradient(135deg, rgba(102, 187, 106, 0.25), rgba(0, 66, 37, 0.12));
+        }
+
+        .benefit-detail-text h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary-green);
+            margin-bottom: 1rem;
+        }
+
+        .benefit-detail-text p {
+            color: var(--text-gray);
+            line-height: 1.8;
+            font-size: 1.05rem;
+        }
+
+        .benefit-detail-accent {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-green), var(--light-green), var(--gold));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .resource-link {
+            color: var(--primary-green);
+            text-decoration: none;
+            font-weight: 600;
+            position: relative;
+            transition: color 0.2s ease;
+        }
+
+        .resource-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--light-green);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.3s ease;
+        }
+
+        .resource-link:hover {
+            color: var(--accent-green);
+        }
+
+        .resource-link:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        /* Scroll offset for fixed navbar */
+        .benefit-detail-card {
+            scroll-margin-top: 100px;
+        }
+
+        /* Floating Button */
+        .floating-join {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, var(--gold), var(--light-green));
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(249, 168, 37, 0.3);
+            z-index: 999;
+            opacity: 0;
+            transform: translateY(100px);
+            transition: all 0.3s ease;
+        }
+
+        .floating-join.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .floating-join:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(249, 168, 37, 0.4);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--primary-green);
+            color: white;
+            padding: 3rem 0 2rem;
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            opacity: 0.8;
+        }
+
+        .footer-links a:hover {
+            opacity: 1;
+        }
+
+        /* Mobile Styles */
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-menu {
+                display: flex;
+                position: fixed;
+                top: 60px;
+                right: -100%;
+                width: 280px;
+                border-radius: 20px 0 0 20px;
+                height: calc(100vh - 60px);
+                background: linear-gradient(180deg, #ffffff 0%, #f8faf8 100%);
+                flex-direction: column;
+                padding: 2rem 1.5rem;
+                box-shadow: -10px 0 40px rgba(0, 66, 37, 0.15);
+                transition: right 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+                gap: 0.5rem;
+                border-left: 1px solid rgba(0, 66, 37, 0.08);
+            }
+
+            .nav-menu.active {
+                right: 0;
+            }
+
+            .nav-menu li {
+                width: 100%;
+                list-style: none;
+            }
+
+            .nav-menu a {
+                display: flex;
+                align-items: center;
+                padding: 1rem 1.25rem;
+                font-size: 1.05rem;
+                font-weight: 500;
+                color: #333;
+                text-decoration: none;
+                transition: all 0.2s ease;
+                border: 1px solid transparent;
+            }
+
+            .nav-menu a:hover {
+                background: rgba(0, 66, 37, 0.08);
+                color: var(--primary-green);
+                transform: translateX(4px);
+            }
+
+            .nav-menu a.active {
+                background: linear-gradient(135deg, var(--primary-green), var(--accent-green));
+                color: white;
+                font-weight: 600;
+                box-shadow: 0 4px 15px rgba(0, 66, 37, 0.25);
+            }
+
+            .nav-menu a.active:hover {
+                transform: translateX(4px);
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .benefits-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-wrapper {
+                padding: 2rem;
+            }
+
+            .benefit-detail-content {
+                flex-direction: column;
+                gap: 1.5rem;
+                padding: 2rem;
+            }
+
+            .benefit-detail-icon {
+                width: 60px;
+                height: 60px;
+                min-width: 60px;
+                font-size: 1.6rem;
+            }
+
+            .benefit-detail-text h3 {
+                font-size: 1.3rem;
+            }
+
+            .benefit-detail-text p {
+                font-size: 1rem;
+            }
+
+            .benefits-details-header h2 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo-container">
+                <div class="logo"></div>
+            </a>
+            <button class="menu-toggle" id="menuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="aboutus.html">About Us</a></li>
+                <li><a href="events.html">Events</a></li>
+                <li><a href="membership.html" class="active">Membership</a></li>
+                <li><a href="resources.html">Resources</a></li>
+                <li><a href="fermenting.html">Blog</a></li>
+                <li><a href="contactus.html">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <h1>Join EGHI Today</h1>
+            <p class="hero-subtitle">
+                Become part of Emory's leading community for gut health education, research, and professional development.
+            </p>
+            <div class="hero-stats">
+                <div class="stat">
+                    <span class="stat-number">11</span>
+                    <span class="stat-label">Active Members</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">0</span>
+                    <span class="stat-label">Annual Events</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">100%</span>
+                    <span class="stat-label">Member Satisfaction</span>
+                </div>
+            </div>
+            <a href="#signup" class="btn-primary">Apply Now</a>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="benefits">
+        <div class="section-header">
+            <h2>Member Benefits</h2>
+            <p>Unlock exclusive opportunities to grow your knowledge and advance your career</p>
+        </div>
+        <div class="benefits-grid">
+            <div class="benefit-card">
+                <div class="benefit-icon">🎓</div>
+                <h3 class="benefit-title">Expert Guest Lectures</h3>
+                <p class="benefit-description">
+                    Attend exclusive talks by leading gastroenterologists, researchers, and healthcare professionals from Emory and beyond.
+                </p>
+                <a href="#guest-lectures" class="read-more">Learn more →</a>
+            </div>
+            <div class="benefit-card">
+                <div class="benefit-icon">🏥</div>
+                <h3 class="benefit-title">GutPrep Volunteering</h3>
+                <p class="benefit-description">
+                    Gain hands-on experience in helping teach others the basis of a gut-helthy diet.
+                </p>
+                <a href="#clinical-volunteering" class="read-more">Learn more →</a>
+            </div>
+            <div class="benefit-card">
+                <div class="benefit-icon">👨‍🍳</div>
+                <h3 class="benefit-title">Interactive Workshops</h3>
+                <p class="benefit-description">
+                    Participate in gut-healthy cooking classes, fermentation workshops, and nutrition seminars designed for practical application.
+                </p>
+                <a href="#workshops" class="read-more">Learn more →</a>
+            </div>
+            <div class="benefit-card">
+                <div class="benefit-icon">🔬</div>
+                <h3 class="benefit-title">Research Opportunities</h3>
+                <p class="benefit-description">
+                    Connect with faculty mentors and participate in cutting-edge microbiome research projects at Emory.
+                </p>
+                <a href="#research" class="read-more">Learn more →</a>
+            </div>
+            <div class="benefit-card">
+                <div class="benefit-icon">🌐</div>
+                <h3 class="benefit-title">Professional Network</h3>
+                <p class="benefit-description">
+                    Build connections with pre-health students, medical professionals, and industry leaders in digestive health.
+                </p>
+                <a href="#network" class="read-more">Learn more →</a>
+            </div>
+            <div class="benefit-card">
+                <div class="benefit-icon">📚</div>
+                <h3 class="benefit-title">Exclusive Resources</h3>
+                <p class="benefit-description">
+                    Access member-only study materials, research papers, and career guidance in gastroenterology and related fields.
+                </p>
+                <a href="#resources" class="read-more">Learn more →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Eligibility Section -->
+    <section class="eligibility">
+        <div class="eligibility-container">
+            <h2>Who Can Join?</h2>
+            <p class="eligibility-content">
+                EGHI welcomes all Emory students passionate about health and wellness. No prior medical knowledge required!
+            </p>
+            <div class="eligibility-grid">
+                <div class="eligibility-item">Pre-Med Students</div>
+                <div class="eligibility-item">Public Health Majors</div>
+                <div class="eligibility-item">Biology & Science</div>
+                <div class="eligibility-item">Business & Liberal Arts</div>
+                <div class="eligibility-item">Graduate Students</div>
+                <div class="eligibility-item">All Years Welcome</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sign Up Section -->
+    <section class="signup" id="signup">
+        <div class="signup-container">
+            <div class="form-wrapper">
+                <div class="form-header">
+                    <h3>Apply for Membership</h3>
+                    <p>Join our growing community today!</p>
+                </div>
+                <form id="membershipForm" action="https://formspree.io/f/mvzgebze" method="POST">
+                    <div class="form-group">
+                        <label for="fullName">Full Name *</label>
+                        <input type="text" id="fullName" name="fullName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Emory Email *</label>
+                        <input type="email" id="email" name="email" pattern=".*@emory\.edu$" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="year">Year *</label>
+                        <select id="year" name="year" required>
+                            <option value="">Select your year</option>
+                            <option value="freshman">Freshman</option>
+                            <option value="sophomore">Sophomore</option>
+                            <option value="junior">Junior</option>
+                            <option value="senior">Senior</option>
+                            <option value="graduate">Graduate Student</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="major">Major/Program *</label>
+                        <input type="text" id="major" name="major" placeholder="e.g., Biology, Pre-Med" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="interest">Why are you interested in EGHI? *</label>
+                        <textarea id="interest" name="interest" rows="4" required></textarea>
+                    </div>
+                    <button type="submit" class="form-submit">Submit Application</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Details Section -->
+    <section class="benefits-details" id="benefits-details">
+        <div class="benefits-details-container">
+            <div class="benefits-details-header">
+                <h2>What You'll Experience</h2>
+                <p>Dive deeper into the opportunities that await EGHI members</p>
+            </div>
+
+            <div class="benefit-detail-card" id="guest-lectures">
+                <div class="benefit-detail-content">
+                    <div class="benefit-detail-icon">🎓</div>
+                    <div class="benefit-detail-text">
+                        <h3>Expert Guest Lectures</h3>
+                        <p>Connect with leading gastroenterologists, researchers, and healthcare professionals through our monthly hybrid lecture series. These sessions are designed to be interactive. Come ready to ask questions, engage in discussion, and satisfy your curiosity about all things gut health. Whether you join in person or virtually, you'll have the opportunity to learn directly from experts and explore topics that spark your interest.</p>
+                    </div>
+                </div>
+                <div class="benefit-detail-accent"></div>
+            </div>
+
+            <div class="benefit-detail-card" id="clinical-volunteering">
+                <div class="benefit-detail-content">
+                    <div class="benefit-detail-icon">🏥</div>
+                    <div class="benefit-detail-text">
+                        <h3>GutPrep Volunteering</h3>
+                        <p>Make a real impact in the Atlanta community through hands-on volunteer opportunities. Members participate in food bank initiatives and gut health education outreach, helping spread awareness about digestive wellness to those who need it most. It's a meaningful way to apply what you're learning while giving back, and earning service hours along the way.</p>
+                    </div>
+                </div>
+                <div class="benefit-detail-accent"></div>
+            </div>
+
+            <div class="benefit-detail-card" id="workshops">
+                <div class="benefit-detail-content">
+                    <div class="benefit-detail-icon">👨‍🍳</div>
+                    <div class="benefit-detail-text">
+                        <h3>Interactive Workshops</h3>
+                        <p>Get hands-on with gut-healthy cooking and fermentation workshops held in professional kitchen settings. Learn practical techniques for preparing probiotic-rich foods, receive recipe cards to take home, and yes, you'll leave with the food you make. These workshops are completely free for members, making delicious gut health accessible to everyone.</p>
+                    </div>
+                </div>
+                <div class="benefit-detail-accent"></div>
+            </div>
+
+            <div class="benefit-detail-card" id="research">
+                <div class="benefit-detail-content">
+                    <div class="benefit-detail-icon">🔬</div>
+                    <div class="benefit-detail-text">
+                        <h3>Research Opportunities</h3>
+                        <p>Many of our guest lecturers are active researchers with their own labs at Emory and beyond. Through EGHI, you'll have the chance to connect with these faculty members, learn about their ongoing projects, and explore potential research involvement. It's a natural pathway for curious students looking to deepen their academic experience in gut health and related fields.</p>
+                    </div>
+                </div>
+                <div class="benefit-detail-accent"></div>
+            </div>
+
+            <div class="benefit-detail-card" id="network">
+                <div class="benefit-detail-content">
+                    <div class="benefit-detail-icon">🌐</div>
+                    <div class="benefit-detail-text">
+                        <h3>Professional Network</h3>
+                        <p>As a new and growing organization, EGHI offers something special: the chance to be part of building a community from the ground up. Through lectures, workshops, and volunteer activities, you'll naturally connect with fellow pre-health students, science enthusiasts, and professionals who share your passion for digestive wellness. These organic connections often lead to lasting friendships and future collaborations.</p>
+                    </div>
+                </div>
+                <div class="benefit-detail-accent"></div>
+            </div>
+
+            <div class="benefit-detail-card" id="resources">
+                <div class="benefit-detail-content">
+                    <div class="benefit-detail-icon">📚</div>
+                    <div class="benefit-detail-text">
+                        <h3>Exclusive Resources</h3>
+                        <p>Access our curated collection of peer-reviewed articles and educational materials that support your gut health journey. We've done the work of finding quality, evidence-based resources so you don't have to wade through the noise. Plus, check out our <a href="resources.html" class="resource-link">Resources page</a> for articles and an interactive gut health quiz to test your knowledge!</p>
+                    </div>
+                </div>
+                <div class="benefit-detail-accent"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Floating Join Button -->
+    <a href="#signup" class="floating-join" id="floatingJoin">Join EGHI</a>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-links">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="events.html">Events</a>
+            <a href="contact.html">Contact</a>
+        </div>
+        <p>&copy; 2025 Emory Gut Health Initiative. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Mobile Menu
+        const menuToggle = document.getElementById('menuToggle');
+        const navMenu = document.getElementById('navMenu');
+
+        menuToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+
+        // Navbar Scroll
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Floating Button
+        const floatingBtn = document.getElementById('floatingJoin');
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 600) {
+                floatingBtn.classList.add('visible');
+            } else {
+                floatingBtn.classList.remove('visible');
+            }
+        });
+
+        // Form Submission
+        const form = document.getElementById('membershipForm');
+        form.addEventListener('submit', function(e) {
+            const email = form.email.value;
+            if (!email.endsWith('@emory.edu')) {
+                e.preventDefault();
+                alert('Please use your Emory email address');
+                return;
+            }
+            
+            // Form will submit normally to Formspree
+            const submitBtn = form.querySelector('.form-submit');
+            submitBtn.textContent = 'Submitting...';
+            submitBtn.disabled = true;
+        });
+
+        // Smooth Scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

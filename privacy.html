@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy - EGHI | Emory Gut Health Initiative</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-green: #004225;
+            --accent-green: #2e7d32;
+            --light-green: #66bb6a;
+            --gold: #f9a825;
+            --cream: #fff8e1;
+            --dark-bg: #0a0a0a;
+            --gray-bg: #f8f9fa;
+            --text-dark: #333;
+            --text-gray: #666;
+            --success-green: #4caf50;
+            --info-blue: #2196f3;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background Pattern */
+        .bg-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.02;
+            background-image: 
+                radial-gradient(circle at 30% 70%, var(--primary-green) 0%, transparent 50%),
+                radial-gradient(circle at 70% 30%, var(--light-green) 0%, transparent 50%);
+            animation: float-pattern 40s ease-in-out infinite;
+        }
+
+        @keyframes float-pattern {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.1) rotate(5deg); }
+        }
+
+        /* Navigation - Same as other pages */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 0.5rem 0;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .navbar.scrolled {
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            background: url('./EGHILogo.png') no-repeat center;
+            background-size: contain;
+        }
+
+        .logo-text {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--primary-green);
+        }
+
+        .menu-toggle {
+            display: none;
+            width: 30px;
+            height: 30px;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .menu-toggle span {
+            display: block;
+            width: 25px;
+            height: 2px;
+            background: var(--primary-green);
+            margin: 5px 0;
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 0.5rem;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: #666;
+            font-weight: 500;
+            font-size: 0.95rem;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .nav-menu a:hover {
+            color: var(--primary-green);
+            background: rgba(0, 66, 37, 0.08);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #f5f8fa 0%, #e8f5e9 100%);
+            padding: 140px 0 60px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::after {
+            content: '🔒';
+            position: absolute;
+            bottom: -50px;
+            right: -50px;
+            font-size: 200px;
+            opacity: 0.05;
+            transform: rotate(-15deg);
+        }
+
+        .hero-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary-green), var(--accent-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+
+        .privacy-badges {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .privacy-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            font-weight: 500;
+            color: var(--primary-green);
+        }
+
+        .privacy-badge-icon {
+            font-size: 1.5rem;
+        }
+
+        /* Quick Facts Section */
+        .quick-facts {
+            padding: 4rem 0;
+            background: white;
+        }
+
+        .quick-facts-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .facts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .fact-card {
+            background: linear-gradient(135deg, rgba(0, 66, 37, 0.05), rgba(102, 187, 106, 0.03));
+            padding: 2rem;
+            border-radius: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 66, 37, 0.08);
+        }
+
+        .fact-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+        }
+
+        .fact-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .fact-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary-green);
+            margin-bottom: 0.5rem;
+        }
+
+        .fact-description {
+            color: var(--text-gray);
+            font-size: 0.95rem;
+        }
+
+        /* Content Section */
+        .content-section {
+            padding: 4rem 0 6rem;
+            background: linear-gradient(to bottom, var(--gray-bg) 0%, white 100%);
+        }
+
+        .content-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .policy-section {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(0, 66, 37, 0.05);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .policy-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--primary-green), var(--light-green));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .policy-section:hover::before {
+            opacity: 1;
+        }
+
+        .policy-section:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .section-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary-green), var(--accent-green));
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-green);
+        }
+
+        .section-content {
+            color: var(--text-gray);
+            line-height: 1.8;
+        }
+
+        .section-content h3 {
+            color: var(--primary-green);
+            font-size: 1.2rem;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section-content ul {
+            margin: 1rem 0 1rem 2rem;
+        }
+
+        .section-content li {
+            margin-bottom: 0.5rem;
+        }
+
+        .highlight-box {
+            background: rgba(249, 168, 37, 0.1);
+            border-left: 4px solid var(--gold);
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            margin: 1.5rem 0;
+        }
+
+        .info-box {
+            background: rgba(33, 150, 243, 0.1);
+            border-left: 4px solid var(--info-blue);
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            margin: 1.5rem 0;
+        }
+
+        .success-box {
+            background: rgba(76, 175, 80, 0.1);
+            border-left: 4px solid var(--success-green);
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            margin: 1.5rem 0;
+        }
+
+        /* Your Rights Section */
+        .rights-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .right-item {
+            background: linear-gradient(135deg, rgba(0, 66, 37, 0.05), rgba(102, 187, 106, 0.03));
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .right-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        .right-icon {
+            font-size: 2rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .right-title {
+            font-weight: 600;
+            color: var(--primary-green);
+            margin-bottom: 0.5rem;
+        }
+
+        .right-description {
+            font-size: 0.9rem;
+            color: var(--text-gray);
+        }
+
+        /* Contact Section */
+        /* Contact Section - Complete Rewrite */
+        .contact-privacy {
+            background: linear-gradient(135deg, var(--primary-green), var(--accent-green));
+            padding: 3rem;
+            border-radius: 20px;
+            color: white;
+            text-align: center;
+            margin-top: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-privacy::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .contact-privacy h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .contact-privacy p {
+            margin-bottom: 1.5rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .contact-privacy a:not(.btn-privacy) {
+            color: white;
+            text-decoration: underline;
+            font-weight: 600;
+            transition: opacity 0.2s ease;
+        }
+
+        .contact-privacy a:not(.btn-privacy):hover {
+            opacity: 0.8;
+        }
+
+        /* The Contact Us Button - Clean and Modern */
+        .btn-privacy {
+            display: inline-block;
+            background: var(--gold);
+            color: var(--primary-green);
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 1rem;
+            position: relative;
+            z-index: 1;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            border: none;
+            outline: none;
+        }
+
+        .btn-privacy:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-privacy:active {
+            transform: translateY(-1px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        .section-content a {
+            color: var(--accent-green);
+            text-decoration: none;
+            font-weight: 600;
+            position: relative;
+            transition: all 0.3s ease;
+            display: inline-block;
+            text-decoration: none;
+        }
+
+        .section-content a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary-green), var(--light-green));
+            transition: width 0.3s ease;
+        }
+
+        .section-content a:hover {
+            color: var(--primary-green);
+            transform: translateX(2px);
+        }
+
+        .section-content a:hover::after {
+            width: 100%;
+        }
+
+        /* External link indicator */
+        .section-content a[target="_blank"]::before {
+            content: '↗';
+            margin-right: 4px;
+            font-size: 0.9em;
+            opacity: 0.7;
+        }
+        /* Footer - Same as other pages */
+        .footer {
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--accent-green) 100%);
+            color: white;
+            padding: 3rem 0 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.04) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            opacity: 1;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-menu {
+                display: flex;
+                position: fixed;
+                top: 60px;
+                right: -100%;
+                width: 280px;
+                border-radius: 20px 0 0 20px;
+                height: calc(100vh - 60px);
+                background: linear-gradient(180deg, #ffffff 0%, #f8faf8 100%);
+                flex-direction: column;
+                padding: 2rem 1.5rem;
+                box-shadow: -10px 0 40px rgba(0, 66, 37, 0.15);
+                transition: right 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+                gap: 0.5rem;
+                border-left: 1px solid rgba(0, 66, 37, 0.08);
+            }
+
+            .nav-menu.active {
+                right: 0;
+            }
+
+            .nav-menu li {
+                width: 100%;
+                list-style: none;
+            }
+
+            .nav-menu a {
+                display: flex;
+                align-items: center;
+                padding: 1rem 1.25rem;
+                font-size: 1.05rem;
+                font-weight: 500;
+                color: #333;
+                text-decoration: none;
+                transition: all 0.2s ease;
+                border: 1px solid transparent;
+            }
+
+            .nav-menu a:hover {
+                background: rgba(0, 66, 37, 0.08);
+                color: var(--primary-green);
+                transform: translateX(4px);
+            }
+
+            .nav-menu a.active {
+                background: linear-gradient(135deg, var(--primary-green), var(--accent-green));
+                color: white;
+                font-weight: 600;
+                box-shadow: 0 4px 15px rgba(0, 66, 37, 0.25);
+            }
+
+            .nav-menu a.active:hover {
+                transform: translateX(4px);
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .privacy-badges {
+                gap: 1rem;
+            }
+
+            .privacy-badge {
+                font-size: 0.9rem;
+                padding: 0.6rem 1.2rem;
+            }
+
+            .policy-section {
+                padding: 2rem;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .facts-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .rights-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .stagger-delay-1 { transition-delay: 0.1s; }
+        .stagger-delay-2 { transition-delay: 0.2s; }
+        .stagger-delay-3 { transition-delay: 0.3s; }
+    </style>
+</head>
+<body>
+    <!-- Background Pattern -->
+    <div class="bg-pattern"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo-container">
+                <div class="logo"></div>
+            </a>
+            <button class="menu-toggle" id="menuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="aboutus.html">About Us</a></li>
+                <li><a href="events.html">Events</a></li>
+                <li><a href="membership.html">Membership</a></li>
+                <li><a href="resources.html">Resources</a></li>
+                <li><a href="fermenting.html">Blog</a></li>
+                <li><a href="contactus.html">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container fade-in">
+            <h1>Privacy Policy</h1>
+            <p class="hero-subtitle">
+                Your privacy matters to us. Learn how EGHI protects and respects your personal information.
+            </p>
+            <div class="privacy-badges">
+                <div class="privacy-badge">
+                    <span class="privacy-badge-icon">🍪</span>
+                    <span>Cookie-Free Site</span>
+                </div>
+                <div class="privacy-badge">
+                    <span class="privacy-badge-icon">🔒</span>
+                    <span>Your Data is Safe</span>
+                </div>
+                <div class="privacy-badge">
+                    <span class="privacy-badge-icon">🚫</span>
+                    <span>No Third-Party Sharing</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Facts Section -->
+    <section class="quick-facts">
+        <div class="quick-facts-container">
+            <div class="facts-grid">
+                <div class="fact-card fade-in">
+                    <div class="fact-icon">📊</div>
+                    <h3 class="fact-title">Minimal Data Collection</h3>
+                    <p class="fact-description">We only collect what's necessary for membership and communication</p>
+                </div>
+                <div class="fact-card fade-in stagger-delay-1">
+                    <div class="fact-icon">🏥</div>
+                    <h3 class="fact-title">No Health Data</h3>
+                    <p class="fact-description">We never collect or store any personal health information</p>
+                </div>
+                <div class="fact-card fade-in stagger-delay-2">
+                    <div class="fact-icon">📧</div>
+                    <h3 class="fact-title">Easy Opt-Out</h3>
+                    <p class="fact-description">You can unsubscribe or request data deletion anytime</p>
+                </div>
+                <div class="fact-card fade-in stagger-delay-3">
+                    <div class="fact-icon">🛡️</div>
+                    <h3 class="fact-title">Secure Storage</h3>
+                    <p class="fact-description">Your data is stored securely with restricted access</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Content Sections -->
+    <section class="content-section">
+        <div class="content-container">
+            <!-- Introduction -->
+            <div class="policy-section fade-in">
+                <div class="section-header">
+                    <div class="section-icon">👋</div>
+                    <h2 class="section-title">Introduction</h2>
+                </div>
+                <div class="section-content">
+                    <p>Welcome to the Emory Gut Health Initiative (EGHI) Privacy Policy. We take your privacy seriously and are committed to protecting your personal information. This policy explains what information we collect, how we use it, and your rights regarding your data.</p>
+                    
+                    <div class="success-box">
+                        <strong>Our Promise:</strong> We believe in transparency and will never sell, rent, or share your personal information with third parties for their marketing purposes.
+                    </div>
+                    
+                    <p><strong>Last Updated:</strong> January 2024</p>
+                </div>
+            </div>
+
+            <!-- Information We Collect -->
+            <div class="policy-section fade-in">
+                <div class="section-header">
+                    <div class="section-icon">📋</div>
+                    <h2 class="section-title">Information We Collect</h2>
+                </div>
+                <div class="section-content">
+                    <h3>📝 Membership Information</h3>
+                    <p>When you join EGHI or contact us, we collect:</p>
+                    <ul>
+                        <li>Full name</li>
+                        <li>Email address</li>
+                        <li>Year in school and major</li>
+                        <li>Areas of interest related to gut health</li>
+                        <li>Contact preferences</li>
+                    </ul>
+
+                    <h3>📸 Event Information</h3>
+                    <p>At EGHI events, we may:</p>
+                    <ul>
+                        <li>Take photographs and videos for promotional purposes</li>
+                        <li>Record attendance for event planning</li>
+                        <li>Note dietary preferences for food events (optional)</li>
+                    </ul>
+
+                    <h3>📊 Website Analytics</h3>
+                    <p>We use Google Analytics to understand how visitors use our website. This includes:</p>
+                    <ul>
+                        <li>Pages visited and time spent</li>
+                        <li>General geographic location (city level)</li>
+                        <li>Device and browser type</li>
+                        <li>How you found our website</li>
+                    </ul>
+
+                    <div class="highlight-box">
+                        <strong>Cookie-Free!</strong> For health reasons (and privacy!), we don't use cookies on our website. Your browsing is not tracked across other sites.
+                    </div>
+                </div>
+            </div>
+
+            <!-- How We Use Your Information -->
+            <div class="policy-section fade-in">
+                <div class="section-header">
+                    <div class="section-icon">🎯</div>
+                    <h2 class="section-title">How We Use Your Information</h2>
+                </div>
+                <div class="section-content">
+                    <p>We use your information exclusively for EGHI-related purposes:</p>
+
+                    <h3>✉️ Communications</h3>
+                    <ul>
+                        <li>Send event invitations and updates</li>
+                        <li>Share educational content and resources</li>
+                        <li>Announce volunteer opportunities</li>
+                        <li>Respond to your inquiries</li>
+                    </ul>
+
+                    <h3>📈 Improvement</h3>
+                    <ul>
+                        <li>Plan better events based on attendance</li>
+                        <li>Understand member interests</li>
+                        <li>Improve our website and services</li>
+                    </ul>
+
+                    <h3>🛍️ Transactions</h3>
+                    <p>When you purchase merchandise through Shopify:</p>
+                    <ul>
+                        <li>Shopify handles payment processing securely</li>
+                        <li>We only receive order information for fulfillment</li>
+                        <li>We don't store payment details</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Data Storage & Security -->
+            <div class="policy-section fade-in">
+                <div class="section-header">
+                    <div class="section-icon">🔐</div>
+                    <h2 class="section-title">Data Storage & Security</h2>
+                </div>
+                <div class="section-content">
+                    <h3>📁 How We Store Your Data</h3>
+                    <ul>
+                        <li>Member information is stored locally and on a secure external hard drive</li>
+                        <li>Only the EGHI President has access to member data</li>
+                        <li>Email lists are managed through Outlook with secure login</li>
+                        <li>No cloud storage or third-party databases are used</li>
+                    </ul>
+
+                    <h3>🔒 Security Measures</h3>
+                    <ul>
+                        <li>Password-protected devices and accounts</li>
+                        <li>Regular backup to prevent data loss</li>
+                        <li>Restricted physical access to storage devices</li>
+                        <li>Annual security review and update</li>
+                    </ul>
+
+                    <h3>📅 Data Retention</h3>
+                    <p>Your information is kept until:</p>
+                    <ul>
+                        <li>You request deletion</li>
+                        <li>You graduate and are no longer active</li>
+                        <li>Leadership transition (data is securely transferred to the next President)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Your Rights -->
+            <div class="policy-section fade-in">
+                <div class="section-header">
+                    <div class="section-icon">⚖️</div>
+                    <h2 class="section-title">Your Privacy Rights</h2>
+                </div>
+                <div class="section-content">
+                    <p>You have complete control over your personal information:</p>
+                    
+                    <div class="rights-grid">
+                        <div class="right-item">
+                            <div class="right-icon">👁️</div>
+                            <div class="right-title">Access</div>
+                            <div class="right-description">Request to see what information we have about you</div>
+                        </div>
+                        <div class="right-item">
+                            <div class="right-icon">✏️</div>
+                            <div class="right-title">Update</div>
+                            <div class="right-description">Correct or update your information anytime</div>
+                        </div>
+                        <div class="right-item">
+                            <div class="right-icon">🗑️</div>
+                            <div class="right-title">Delete</div>
+                            <div class="right-description">Request complete removal from our records</div>
+                        </div>
+                        <div class="right-item">
+                            <div class="right-icon">🚫</div>
+                            <div class="right-title">Opt-Out</div>
+                            <div class="right-description">Unsubscribe from emails while staying a member</div>
+                        </div>
+                    </div>
+
+                    <div class="info-box">
+                        <strong>How to Exercise Your Rights:</strong> Simply email us or talk to any executive board member. We'll process your request within 48 hours.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Third-Party Services -->
+            <div class="policy-section fade-in">
+                <div class="section-header">
+                    <div class="section-icon">🤝</div>
+                    <h2 class="section-title">Third-Party Services</h2>
+                </div>
+                <div class="section-content">
+                    <p>We use minimal third-party services to run EGHI effectively:</p>
+
+                    <h3>📊 Google Analytics</h3>
+                        <ul>
+                            <li>Tracks website usage anonymously</li>
+                            <li>No personal information is shared</li>
+                            <li><a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">View Google's Privacy Policy</a></li>
+                        </ul>
+
+                        <h3>🛍️ Shopify</h3>
+                        <ul>
+                            <li>Processes merchandise purchases</li>
+                            <li>Handles payment securely</li>
+                            <li><a href="https://www.shopify.com/legal/privacy" target="_blank" rel="noopener noreferrer">View Shopify's Privacy Policy</a></li>
+                        </ul>
+
+                    <h3>📍 Google Maps</h3>
+                    <ul>
+                        <li>Shows event locations</li>
+                        <li>No tracking or data collection</li>
+                    </ul>
+
+                    <h3>📝 Microsoft Forms</h3>
+                    <ul>
+                        <li>May be used for surveys</li>
+                        <li>Responses are anonymous unless you provide contact info</li>
+                    </ul>
+
+                    <div class="success-box">
+                        <strong>No Social Media Tracking:</strong> We don't use Facebook Pixel, Twitter tracking, or any social media analytics that follow you across the web.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Special Considerations -->
+            <div class="policy-section fade-in">
+                <div class="section-header">
+                    <div class="section-icon">👨‍👩‍👧‍👦</div>
+                    <h2 class="section-title">Special Considerations</h2>
+                </div>
+                <div class="section-content">
+                    <h3>🎓 International Students</h3>
+                    <p>We welcome international students! Your data is treated with the same care and protection regardless of your country of origin. All data remains in the United States.</p>
+
+                    <h3>👶 Minors</h3>
+                    <p>While EGHI primarily serves college students (18+), minors participating in events must have parental consent for:</p>
+                   <ul>
+                       <li>Photography and video recording</li>
+                       <li>Use of images on our website and social media</li>
+                       <li>Participation in activities</li>
+                   </ul>
+
+                   <h3>📸 Photography Rights</h3>
+                   <p>By attending EGHI events, you agree that photos may be taken. However:</p>
+                   <ul>
+                       <li>You can opt-out by informing event organizers</li>
+                       <li>We'll avoid photographing those who opt-out</li>
+                       <li>You can request removal of your photos anytime</li>
+                   </ul>
+               </div>
+           </div>
+
+           <!-- Updates to Privacy Policy -->
+           <div class="policy-section fade-in">
+               <div class="section-header">
+                   <div class="section-icon">📝</div>
+                   <h2 class="section-title">Updates to This Policy</h2>
+               </div>
+               <div class="section-content">
+                   <p>We may update this Privacy Policy to reflect changes in our practices or for legal reasons. When we make changes:</p>
+                   <ul>
+                       <li>We'll update the "Last Updated" date at the top</li>
+                       <li>For significant changes, we'll notify members via email</li>
+                       <li>Continued use of our services means you accept the updates</li>
+                   </ul>
+                   
+                   <div class="info-box">
+                       <strong>Stay Informed:</strong> Check this page periodically for updates, especially when we become an official Emory student organization.
+                   </div>
+               </div>
+           </div>
+
+           <!-- Contact Us -->
+           <div class="contact-privacy fade-in">
+               <h3>Questions About Your Privacy?</h3>
+               <p>We're here to help! If you have any questions about this Privacy Policy or how we handle your data, please don't hesitate to reach out.</p>
+               <p><strong>Aiden Golub, President</strong><br>
+               Email: <a href="mailto:aiden.golub@emory.edu">aiden.golub@emory.edu</a><br>
+               Office Hours: Mon & Thu, 3:00 PM - 5:00 PM</p>
+               <a href="contactus.html" class="btn-privacy">Contact Us</a>
+           </div>
+       </div>
+   </section>
+
+   <!-- Footer -->
+   <footer class="footer">
+       <div class="footer-container">
+           <div class="footer-links">
+               <a href="index.html">Home</a>
+               <a href="aboutus.html">About</a>
+               <a href="events.html">Events</a>
+               <a href="membership.html">Membership</a>
+               <a href="contactus.html">Contact</a>
+               <a href="terms.html">Terms of Service</a>
+           </div>
+           <p>&copy; 2025 Emory Gut Health Initiative. All rights reserved. Website created by Aiden Golub.</p>
+       </div>
+   </footer>
+
+   <script>
+       // Smooth scrolling for anchor links
+       document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+           anchor.addEventListener('click', function (e) {
+               e.preventDefault();
+               const target = document.querySelector(this.getAttribute('href'));
+               if (target) {
+                   const offsetTop = target.offsetTop - 100;
+                   window.scrollTo({
+                       top: offsetTop,
+                       behavior: 'smooth'
+                   });
+               }
+           });
+       });
+
+       // Navbar scroll effect
+       window.addEventListener('scroll', () => {
+           const navbar = document.getElementById('navbar');
+           if (window.scrollY > 50) {
+               navbar.classList.add('scrolled');
+           } else {
+               navbar.classList.remove('scrolled');
+           }
+       });
+
+       // Mobile menu toggle
+       const menuToggle = document.getElementById('menuToggle');
+       const navMenu = document.getElementById('navMenu');
+
+       menuToggle.addEventListener('click', () => {
+           navMenu.classList.toggle('active');
+       });
+
+       // Intersection Observer for animations
+       const observerOptions = {
+           threshold: 0.1,
+           rootMargin: '0px 0px -50px 0px'
+       };
+
+       const observer = new IntersectionObserver((entries) => {
+           entries.forEach(entry => {
+               if (entry.isIntersecting) {
+                   entry.target.classList.add('visible');
+               }
+           });
+       }, observerOptions);
+
+       document.querySelectorAll('.fade-in').forEach(el => {
+           observer.observe(el);
+       });
+
+       // Interactive hover effect for policy sections
+       document.querySelectorAll('.policy-section').forEach(section => {
+           section.addEventListener('mouseenter', function() {
+               this.style.transform = 'translateY(-5px) scale(1.01)';
+           });
+           
+           section.addEventListener('mouseleave', function() {
+               this.style.transform = '';
+           });
+       });
+
+       // Add click to expand functionality for mobile
+       if (window.innerWidth <= 768) {
+           document.querySelectorAll('.section-header').forEach(header => {
+               header.style.cursor = 'pointer';
+               header.addEventListener('click', function() {
+                   const content = this.nextElementSibling;
+                   content.style.display = content.style.display === 'none' ? 'block' : 'none';
+               });
+           });
+       };
+       // Contact button enhancement
+    document.addEventListener('DOMContentLoaded', function() {
+        const contactBtn = document.querySelector('.btn-privacy');
+        if (contactBtn) {
+            // Remove any default link behaviors
+            contactBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                // Smooth navigation
+                window.location.href = 'contactus.html';
+            });
+            
+            // Add magnetic effect on hover
+            contactBtn.addEventListener('mousemove', function(e) {
+                const rect = this.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                
+                this.style.transform = `translate(${x * 0.1}px, ${y * 0.1}px) translateY(-3px)`;
+            });
+            
+            contactBtn.addEventListener('mouseleave', function() {
+                this.style.transform = '';
+            });
+        }
+    });
+   </script>
+</body>
+</html>

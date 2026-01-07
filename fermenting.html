@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coming Soon - EGHI</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-green: #004225;
+            --accent-green: #2e7d32;
+            --light-green: #66bb6a;
+            --gold: #f9a825;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e8f5e9 100%);
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Floating bacteria background */
+        .bacteria-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .bacteria {
+            position: absolute;
+            font-size: 30px;
+            opacity: 0.2;
+            animation: float-up linear infinite;
+        }
+
+        @keyframes float-up {
+            from {
+                transform: translateY(calc(100vh + 100px)) rotate(0deg);
+            }
+            to {
+                transform: translateY(-100px) rotate(360deg);
+            }
+        }
+
+        .bacteria:nth-child(1) { left: 10%; animation-duration: 15s; font-size: 25px; }
+        .bacteria:nth-child(2) { left: 20%; animation-duration: 20s; animation-delay: -5s; }
+        .bacteria:nth-child(3) { left: 35%; animation-duration: 18s; animation-delay: -8s; font-size: 35px; }
+        .bacteria:nth-child(4) { left: 50%; animation-duration: 22s; animation-delay: -3s; }
+        .bacteria:nth-child(5) { left: 65%; animation-duration: 17s; animation-delay: -10s; font-size: 28px; }
+        .bacteria:nth-child(6) { left: 80%; animation-duration: 19s; animation-delay: -7s; }
+        .bacteria:nth-child(7) { left: 90%; animation-duration: 16s; animation-delay: -12s; font-size: 32px; }
+
+        /* Main container */
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Microscope icon */
+        .icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            animation: subtle-bounce 4s ease-in-out infinite;
+        }
+
+        @keyframes subtle-bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        h1 {
+            color: var(--primary-green);
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            color: var(--gold);
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .message {
+            color: #666;
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Progress bar */
+        .progress-wrapper {
+            margin: 2rem 0;
+        }
+
+        .progress-label {
+            color: var(--primary-green);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--gold), var(--light-green));
+            border-radius: 10px;
+            animation: progress-pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes progress-pulse {
+            0%, 100% { width: 65%; }
+            50% { width: 72%; }
+        }
+
+        /* Fun fact box */
+        .fact-box {
+            background: #f0f9f0;
+            border-left: 3px solid var(--light-green);
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+            text-align: left;
+        }
+
+        .fact-box strong {
+            color: var(--primary-green);
+        }
+
+        /* Button */
+        .home-btn {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            background: var(--primary-green);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .home-btn:hover {
+            background: var(--accent-green);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 66, 37, 0.2);
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 2rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .icon {
+                font-size: 3rem;
+            }
+
+            .bacteria {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating bacteria background -->
+    <div class="bacteria-container">
+        <div class="bacteria">🦠</div>
+        <div class="bacteria">🧫</div>
+        <div class="bacteria">🦠</div>
+        <div class="bacteria">🧪</div>
+        <div class="bacteria">🦠</div>
+        <div class="bacteria">🔬</div>
+        <div class="bacteria">🧬</div>
+    </div>
+
+    <!-- Main content -->
+    <div class="container">
+        <div class="icon">🔬</div>
+        <h1>Oops!</h1>
+        <p class="subtitle">Still Culturing This Page...</p>
+        <p class="message">Check back soon!</p>
+        
+        <div class="progress-wrapper">
+            <p class="progress-label">Fermentation Progress:</p>
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+        </div>
+
+        <div class="fact-box">
+            <strong>Did you know?</strong> Your gut has more bacteria than stars in the Milky Way!
+        </div>
+
+        <a href="index.html" class="home-btn">Return Home</a>
+    </div>
+</body>
+</html>
